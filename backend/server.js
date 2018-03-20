@@ -12,13 +12,21 @@ import { notFoundHandler, errorVerboseHandler, errorSilentHandler } from './app/
 const internetStore = appBuilder(app);
 
 
-const { passport, config, logger } = internetStore;
+const { passport, config, logger: { http, main } } = internetStore;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ type: 'json' }));
 app.use(cookieParser());
 
 app.use(session);
+
+app.use(http);
+
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
 
 // app.use(passport.initialize());
 // app.use(passport.session());
@@ -42,4 +50,4 @@ app.set('port', config.port);
 app.set('host', config.host);
 
 app.listen(config.port, config.host,
-    () => logger.info(`App listening on ${app.get('host')}:${app.get('port')}`));
+    () => main.info(`App listening on ${app.get('host')}:${app.get('port')}`));

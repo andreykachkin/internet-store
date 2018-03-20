@@ -12,6 +12,6 @@ const httpLogger = bunyanExpress({
 export default {
     http: httpLogger,
     db: buildLogger('db'),
-    logger: buildLogger({ level: 'debug', name: 'internet_store' }),
+    main: buildLogger({ level: 'debug', name: 'internet_store' }),
     buildLogger,
 };

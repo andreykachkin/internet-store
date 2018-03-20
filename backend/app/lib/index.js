@@ -2,15 +2,15 @@ import util from 'util';
 
 import config from '../../config';
 import db from '../models';
-import log from './log';
+import logger from './log';
 // import passport from './passport';
 
 export default express => ({
     config,
-    db,
+    // db,
     express,
     // passport,
-    logger: log.logger,
+    logger,
     inspect(obj, title) {
         if (title) {
             console.log(title);

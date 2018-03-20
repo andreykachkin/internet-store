@@ -1,5 +1,5 @@
-import opts from './api/opts';
+import shipments from './api/shipments';
 
 export default app => {
-    app.express.use('/api/v1', [opts]);
+    app.express.use('/api/v1', [shipments]);
 };
