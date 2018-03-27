@@ -1,37 +1,34 @@
 <template>
     <table class="table table-hover table-bordered table-striped">
         <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-        </tr>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Creation Date</th>
+                <th scope="col">ETD</th>
+                <th scope="col">RTD</th>
+                <th scope="col">ETA</th>
+                <th scope="col">RTA</th>
+            </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-        </tr>
+            <router-link v-for="shipment in shipments"
+                         :key="shipment.id" tag="tr"
+                         :to="{ name: 'view shipment by id', params: { id: shipment.id } }">
+                <th scope="row">{{shipment.id}}</th>
+                <td>{{shipment.name}}</td>
+                <td>{{shipment.created_at}}</td>
+                <td>{{shipment.etd}}</td>
+                <td>{{shipment.rtd}}</td>
+                <td>{{shipment.eta}}</td>
+                <td>{{shipment.rta}}</td>
+            </router-link>
         </tbody>
     </table>
 </template>
 
 <script>
-import Axios from 'axios';
+import api from '../api/shipments';
 
 export default {
     data() {
@@ -40,13 +37,8 @@ export default {
         };
     },
     created() {
-        Axios.get('http://localhost:3001/api/v1/shipments')
-            .then(({ data }) => {
-                this.shipments = data;
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        api.loadShipments()
+            .then(result => this.shipments = result);
     },
 };
 </script>

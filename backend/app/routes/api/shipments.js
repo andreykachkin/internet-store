@@ -1,20 +1,13 @@
 import { Router } from 'express';
+import { list, view } from '../../controllers/shipments';
 
 const router = Router();
 
-router.get('/shipments', (req, res) => {
-    const data = [
-        {
-            id: 1,
-            name: 'test1'
-        },
-        {
-            id:2,
-            name: 'test2'
-        }
-    ];
-    res.status(200).send(data);
-});
+router.get('/shipments',
+    list);
+
+router.get('/shipments/:id',
+    view);
 
 export default router;
 

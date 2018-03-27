@@ -3,8 +3,7 @@ import path from 'path';
 import Sequelize from 'sequelize';
 
 import applyRelations from './applyRelations';
-import logger from '../log';
-import config from '../../../config';
+import config from '../../config';
 
 let db;
 
@@ -15,13 +14,10 @@ export default () => {
 
     const sequelize = new Sequelize(
         config.database.urn,
-        {
-            dialect: 'postgres',
-            logging: logger.db,
-        }
+        { dialect: 'postgres' }
     );
 
-    const modelsDir = path.join(__dirname, '..', '..', 'models');
+    const modelsDir = path.join(__dirname, 'models');
 
     db = fs.readdirSync(modelsDir)
         .filter(file => file.indexOf('.') !== 0)

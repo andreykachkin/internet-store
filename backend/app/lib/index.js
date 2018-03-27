@@ -1,7 +1,7 @@
 import util from 'util';
 
 import config from '../../config';
-import db from '../models';
+import db from '../db';
 import logger from './log';
 // import passport from './passport';
 

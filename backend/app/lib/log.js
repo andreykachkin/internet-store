@@ -9,9 +9,11 @@ const httpLogger = bunyanExpress({
     parseUA: false,
 });
 
+const mainLogger =  bunyan.createLogger({ level: 'debug', name: 'internet_store' });
+
 export default {
     http: httpLogger,
-    db: buildLogger('db'),
-    main: buildLogger({ level: 'debug', name: 'internet_store' }),
+    db: mainLogger.child({sc: 'db'}),
+    main: mainLogger,
     buildLogger,
 };

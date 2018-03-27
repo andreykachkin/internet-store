@@ -41,14 +41,14 @@ export default {
     data() {
         return {
             menu: [
-                { name: 'Shipments', to: 'shipments' },
-                { name: 'Invoicing', to: 'invoicing' },
+                { name: 'Shipments', to: '/shipments' },
+                { name: 'Invoicing', to: '/invoicing' },
             ],
             subMenu: [
-                { name: 'My Locations', to: 'locations' },
-                { name: 'Cargo Types', to: 'cargo-types' },
+                { name: 'My Locations', to: '/locations' },
+                { name: 'Cargo Types', to: '/cargo-types' },
                 { isDivider: true },
-                { name: 'Templates', to: 'templates' },
+                { name: 'Templates', to: '/templates' },
             ],
         };
     },

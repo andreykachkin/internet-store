@@ -25,7 +25,7 @@ const buildRelations = (db, rules) => rules
 
         return { leftModel, relationType, rightModel, foreignKeyFieldName, targetKeyFieldName, extra };
     })
-    .forEach(rule => {
+    .map(rule => {
         const { leftModel, relationType, rightModel, foreignKeyFieldName, targetKeyFieldName, extra } = rule;
 
         if (!db[leftModel]) {
