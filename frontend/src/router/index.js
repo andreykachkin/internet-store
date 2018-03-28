@@ -26,6 +26,11 @@ export default new Router({
             component: LocationList,
             children: [
                 {
+                    path: 'add',
+                    name: 'all locations.add',
+                    component: LocationItem,
+                },
+                {
                     path: ':id/edit',
                     name: 'all locations.edit',
                     component: LocationItem,

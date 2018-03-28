@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { list, view, remove } from '../../controllers/locations';
+import { list, view, create, update, remove } from '../../controllers/locations';
 
 const router = Router();
 
@@ -8,6 +8,12 @@ router.get('/locations',
 
 router.get('/locations/:id',
     view);
+
+router.post('/locations',
+    create);
+
+router.patch('/locations/:id',
+    update);
 
 router.delete('/locations/:id',
     remove);

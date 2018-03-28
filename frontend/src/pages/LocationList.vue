@@ -1,5 +1,9 @@
 <template>
     <div>
+        <router-link class="btn btn-primary float-right"
+                :to="{ name: 'all locations.add' }">
+            Create
+        </router-link>
         <table class="table table-hover table-bordered table-striped">
             <thead>
             <tr>
@@ -25,7 +29,7 @@
                                  :to="{ name: 'all locations.edit', params: { id: location.id }}">
                         Update
                     </router-link>
-                    <button class="btn btn-outline-danger" @click="removeLocation(location.id)">Remove</button>
+                    <button class="btn btn-outline-danger" @click="remove(location.id)">Remove</button>
                 </td>
             </tr>
             </tbody>
@@ -35,28 +39,23 @@
 </template>
 
 <script>
-import moment from 'moment';
-import api from '../api/locations';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    data() {
-        return {
-            locations: [],
-        };
-    },
+    computed: mapGetters({
+        locations: 'getLocations',
+    }),
     created() {
-        this.fetchData();
+        this.loadLocations();
     },
     methods: {
-        fetchData() {
-            return api.loadLocations()
-                .then(result => this.locations = (result || [])
-                    .map(item => ({ ...item, creationDate: moment(item.created_at).format('LLL') }))
-                );
-        },
-        removeLocation(id) {
-            api.deleteLocation(id)
-                .then(() => this.fetchData());
+        ...mapActions([
+            'removeLocation',
+            'loadLocations',
+        ]),
+        remove(id) {
+            this.removeLocation(id)
+                .then(() => this.loadLocations());
         },
     },
 };
