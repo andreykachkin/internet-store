@@ -3,7 +3,7 @@
         <Header></Header>
         <div class="container-fluid">
             <div class="row">
-                <main role="main" class="col-md-12 pt-3 px-4">
+                <main role="main" class="col-12 pt-3 px-4">
                     <router-view/>
                 </main>
             </div>
@@ -12,12 +12,20 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import Header from './components/Header';
 
 export default {
-    name: 'App',
     components: {
         Header,
     },
+    created() {
+        this.loadCargoTypes();
+        this.loadShipmentModes();
+    },
+    methods: mapActions([
+        'loadCargoTypes',
+        'loadShipmentModes',
+    ]),
 };
 </script>

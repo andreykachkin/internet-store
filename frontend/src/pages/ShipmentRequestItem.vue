@@ -5,21 +5,60 @@
                 <div class="modal-container">
 
                     <div class="modal-header">
-                        <slot name="header"></slot>
+                        <div class="row">
+                            <span v-if="shipmentRequest.name">{{shipmentRequest.name}}</span>
+                            <span v-else>New Request</span>
+                            <button class="btn btn-outline-dark">Close</button>
+                        </div>
                     </div>
 
                     <div class="modal-body">
-                        <slot name="body"></slot>
+                        <div>
+                            <Basics v-bind="shipmentRequest"></Basics>
+                            <LocationPoint
+                                    :locations="shipmentRequest.from_addresses"
+                                    direction="from"></LocationPoint>
+                            <LocationPoint
+                                    :locations="shipmentRequest.dest_addresses"
+                                    direction="dest"></LocationPoint>
+                        </div>
                     </div>
 
                     <div class="modal-footer">
-                        <slot name="footer"></slot>
+                        23
                     </div>
                 </div>
             </div>
         </div>
     </transition>
 </template>
+
+<script>
+import { mapActions, mapGetters } from 'vuex';
+
+import Modal from '../components/Modal';
+import Basics from '../components/shipment-request-components/Basics';
+import LocationPoint from '../components/shipment-request-components/LocationPoint';
+
+export default {
+    computed: mapGetters({
+        shipmentRequest: 'getCurrentShipmentRequest',
+    }),
+    created() {
+        this.loadShipmentRequest(this.$route.params.id);
+    },
+    methods: {
+        ...mapActions([
+            'loadShipmentRequest',
+        ]),
+    },
+    components: {
+        Modal,
+        Basics,
+        LocationPoint,
+    },
+};
+</script>
 
 <style>
     .modal-mask {

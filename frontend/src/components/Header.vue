@@ -37,20 +37,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-    data() {
-        return {
-            menu: [
-                { name: 'Shipments', to: '/shipments' },
-                { name: 'Invoicing', to: '/invoicing' },
-            ],
-            subMenu: [
-                { name: 'My Locations', to: '/locations' },
-                { name: 'Cargo Types', to: '/cargo-types' },
-                { isDivider: true },
-                { name: 'Templates', to: '/templates' },
-            ],
-        };
-    },
+    computed: mapGetters({
+        menu: 'getHeaderMenu',
+        subMenu: 'getHeaderSubMenu',
+    }),
 };
 </script>

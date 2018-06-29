@@ -39,12 +39,19 @@
 </template>
 
 <script>
+import moment from 'moment';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    computed: mapGetters({
-        locations: 'getLocations',
-    }),
+    computed: {
+        ...mapGetters([
+            'getLocations',
+        ]),
+        locations() {
+            return this.getLocations
+                .map(item => ({ ...item, creationDate: moment(item.created_at).format('LLL') }));
+        },
+    },
     created() {
         this.loadLocations();
     },

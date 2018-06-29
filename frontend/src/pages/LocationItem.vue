@@ -1,5 +1,5 @@
 <template>
-    <Modal @close="closeModal()">
+    <Modal>
         <div slot="header">
             <span v-if="location.id">Modify - {{location.name}}</span>
             <span v-else>Create location</span>
@@ -50,101 +50,43 @@
             </div>
         </div>
         <div slot="footer">
-            <button class="btn btn-outline-success" v-if="location.id" @click="updateLocation()">Update</button>
-            <button class="btn btn-outline-success" v-else @click="createLocation()">Create</button>
+            <button class="btn btn-outline-success" v-if="location.id" @click="update()">Update</button>
+            <button class="btn btn-outline-success" v-else @click="create()">Create</button>
             <button class="btn btn-outline-dark" @click="closeModal()">Close</button>
         </div>
     </Modal>
 </template>
 
 <script>
-import api from '../api/locations';
+import { mapGetters, mapActions } from 'vuex';
 
 import Modal from '../components/Modal';
 
 export default {
-    data() {
-        return {
-            location: [],
-            locationTypes: [
-                {
-                    value: 'store',
-                    title: 'Store',
-                },
-                {
-                    value: 'final_customer',
-                    title: 'Final Customer',
-                },
-                {
-                    value: 'warehouse',
-                    title: 'Warehouse',
-                },
-                {
-                    value: 'factory',
-                    title: 'Factory',
-                },
-                {
-                    value: 'port',
-                    title: 'Port',
-                },
-                {
-                    value: 'airport',
-                    title: 'Airport',
-                },
-                {
-                    value: 'administration',
-                    title: 'Administration',
-                },
-                {
-                    value: 'head_office',
-                    title: 'Head Office',
-                },
-                {
-                    value: 'other',
-                    title: 'Other',
-                },
-            ],
-        };
-    },
+    computed: mapGetters({
+        location: 'getCurrentLocation',
+        locationTypes: 'getLocationTypes',
+    }),
     created() {
-        const paramsId = this.$route.params.id;
-        return Promise.resolve()
-            .then(() => {
-                if (paramsId) {
-                    return api.loadLocation(paramsId);
-                }
-                return {};
-            })
-            .then(result => this.location = result);
+        this.loadLocation(this.$route.params.id);
     },
     methods: {
+        ...mapActions([
+            'createLocation',
+            'updateLocation',
+            'loadLocation',
+            'loadLocations',
+        ]),
         closeModal() {
             this.$router.push({ name: 'all locations' });
+            this.loadLocations();
         },
-        createLocation() {
-            api.createLocation(this.location)
+        create() {
+            this.createLocation(this.location)
                 .then(() => this.closeModal());
         },
-        updateLocation() {
-            const {
-                id, name, type,
-                address_1: address1,
-                address_2: address2,
-                address_3: address3,
-                city, country, zipcode,
-            } = this.location;
-            const location = {
-                id,
-                name,
-                type,
-                address_1: address1,
-                address_2: address2,
-                address_3: address3,
-                city,
-                country,
-                zipcode,
-            };
-            api.updateLocation(location)
+        update() {
+            this.updateLocation(this.location)
                 .then(() => this.closeModal());
         },
     },
